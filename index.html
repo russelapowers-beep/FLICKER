@@ -82,6 +82,12 @@
             );
         }
 
+                .ca-vertical.copied {
+            border-color: #00ff00 !important;
+            color: #00ff00 !important;
+            text-shadow: 0 0 15px #00ff00 !important;
+        }
+         
         .sector { 
             position: absolute; 
             top: 50%; left: 50%;
@@ -288,7 +294,25 @@
         <a href="https://x.com/trumpsroulette" target="_blank"><img src="materials/X.png" alt="X"></a>
         <a href="https://t.me/SPIN_TRUMP" target="_blank"><img src="materials/telegram.png" alt="Telegram"></a>
         <a href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=Ag5iNBSdEV5pikt6Kz8GfSgo8hpSSnu8KjVFnTvwpump" target="_blank"><img src="materials/buy.png" alt="Buy"></a>
-        <div class="ca-vertical" onclick="navigator.clipboard.writeText('Ag5iNBSdEV5pikt6Kz8GfSgo8hpSSnu8KjVFnTvwpump')">COPY CA:Ag5iNBSdE...Tvwpump</div>
+       <div class="ca-vertical" id="ca-button" onclick="copyCA()">COPY CA:Ag5iNBSdE...Tvwpump</div>
+
+<script>
+    function copyCA() {
+        const caText = 'Ag5iNBSdEV5pikt6Kz8GfSgo8hpSSnu8KjVFnTvwpump';
+        const btn = document.getElementById('ca-button');
+        
+        // Копируем текст
+        navigator.clipboard.writeText(caText);
+        
+        // Добавляем класс подсветки
+        btn.classList.add('copied');
+        
+        // Убираем подсветку через 1 секунду
+        setTimeout(() => {
+            btn.classList.remove('copied');
+        }, 1000);
+    }
+</script>
     </div>
 
     <div class="trump-wrapper">
