@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trump Iran Coin</title>
+    <link rel="icon" href="materials/trump_main.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; width: 100%; overflow: hidden; font-family: 'Courier New', Courier, monospace; background-color: #000; transition: filter 0.3s; }
+        .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%;}
+        .background-map { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-image: url('materials/Background.png'); background-size: cover; background-position: center; animation: droneFly 30s ease-in-out infinite alternate; }
+        @keyframes droneFly { 0% { transform: scale(1) translate(0, 0) rotate(0deg); } 50% { transform: scale(1.1) translate(-4%, -4%) rotate(1deg); } 100% { transform: scale(1.05) translate(3%, 2%) rotate(-1deg); } }
+        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 150px rgba(0,0,0,0.9); pointer-events: none; transition: box-shadow 0.5s; }
+        body { display: flex; justify-content: center; align-items: flex-end; position: relative; }
+        .social-links { position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 10; align-items: center; }
+        .social-links a { width: 80px; height: 80px; transition: transform 0.2s; }
+        .social-links img { width: 100%; height: 100%; object-fit: contain; }
+        .ca-vertical { margin-top: 10px; padding: 15px 8px; background: #000; border: 1px solid red; color: red; font-weight: bold; font-size: 16px; writing-mode: vertical-rl; text-orientation: upright; letter-spacing: 2px; text-shadow: 0 0 8px red; cursor: pointer; }
+        .trump-wrapper { width: 100%; display: flex; justify-content: center; line-height: 0; z-index: 5; }
+        .trump-wrapper img { height: 70vh; width: auto; filter: drop-shadow(0 -10px 40px rgba(0,0,0,0.9)); }
+
+        .wheel-container {
+            position: absolute;
+            top: 50%;
+            right: 8vh;
+            transform: translateY(-50%);
+            width: 580px;
+            height: 580px;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; 
+        }
+
+        .wheel-title {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: #000;
+            border: 1px solid red;
+            border-left: 4px solid red; 
+            border-right: 4px solid red;
+            color: red;
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px red;
+            z-index: 25;
+            white-space: nowrap;
+            animation: textPulse 2s infinite alternate;
+        }
+
+        @keyframes textPulse {
+            0% { text-shadow: 0 0 8px red; box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); }
+            100% { text-shadow: 0 0 15px red, 0 0 30px red; box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); }
+        }
+
+        .wheel-frame { position: absolute; width: 100%; height: 100%; z-index: 3; pointer-events: none; background-image: url('materials/wheel.png'); background-size: contain; background-repeat: no-repeat; background-position: center; }
+        
+        /* 6-СЕКТОРНОЕ КОЛЕСО ЧЕРЕЗ ГРАДИЕНТ */
+        .wheel-inner { 
+            width: 90%; 
+            height: 90%; 
+            border-radius: 50%; 
+            overflow: hidden;  
+            position: relative; 
+            transition: transform 1.8s cubic-bezier(0.2, 0, 0.2, 1); 
+            border: 4px solid #1a1a1a;
+            /* Рисуем 6 фонов по 60 градусов */
+            background: conic-gradient(
+                #0f172a 0deg 60deg,    /* 0: Nothing new */
+                #1f1f1f 60deg 120deg,  /* 1: Near End */
+                #2d240a 120deg 180deg, /* 2: War is Over */
+                #2d0a0a 180deg 240deg, /* 3: 2-3 Weeks */
+                #0f291e 240deg 300deg, /* 4: Beautiful Deal */
+                #3b0a0a 300deg 360deg  /* 5: Fire & Fury */
+            );
+        }
+
+        .sector { 
+            position: absolute; 
+            top: 50%; left: 50%;
+            width: 50%; height: 40px; 
+            margin-top: -20px;
+            transform-origin: 0 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; /* Текст жмется к краю барабана */
+            padding-right: 35px; /* Отступ текста от края */
+        }
+        
+        /* Расставляем 6 секторов по центру их цветовых полей */
+        .sector:nth-child(1) { transform: rotate(-60deg); }
+        .sector:nth-child(2) { transform: rotate(0deg); }
+        .sector:nth-child(3) { transform: rotate(60deg); }
+        .sector:nth-child(4) { transform: rotate(120deg); }
+        .sector:nth-child(5) { transform: rotate(180deg); }
+        .sector:nth-child(6) { transform: rotate(240deg); }
+        
+        .sector span {
+            display: block; 
+            width: 150px; 
+            font-size: 22px; 
+            font-weight: 900;
+            text-transform: uppercase; 
+            text-align: right; 
+            line-height: 1.1;
+        }
+
+        /* Цвета и свечение текста 6 секторов */
+        .sector:nth-child(1) span { color: #94a3b8; text-shadow: 0 0 12px #3b82f6; } 
+        .sector:nth-child(2) span { color: #6b7280; text-shadow: 0 0 5px #9ca3af; letter-spacing: 1px; } 
+        .sector:nth-child(3) span { color: #fbbf24; text-shadow: 0 0 20px #d97706, 0 0 40px rgba(251, 191, 36, 0.4); } 
+        .sector:nth-child(4) span { color: #f87171; text-shadow: 0 0 15px #991b1b; } 
+        .sector:nth-child(5) span { color: #4ade80; text-shadow: 0 0 15px #16a34a; } 
+        .sector:nth-child(6) span { color: #f87171; text-shadow: 0 0 15px #dc2626; } 
+
+        .pointer {
+            position: absolute;
+            right: -15px;
+            top: 50%; 
+            transform: translateY(-50%);
+            width: 0; height: 0;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            border-right: 40px solid red;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px red);
+        }
+
+        @media (max-width: 1024px) {
+            .wheel-container { width: 300px; height: 300px; right: 10px; }
+            .wheel-title { font-size: 16px; top: -50px; padding: 5px 15px; } 
+            .sector span { font-size: 16px; width: 110px; }
+            .sector { padding-right: 20px; }
+        }
+
+        @media (max-width: 440px) {
+            .trump-wrapper img { height: 45vh; } 
+            .wheel-container { 
+                top: 35%; 
+                right: 50%; 
+                transform: translate(50%, -50%); 
+                width: 250px; 
+                height: 250px; 
+            }
+            .wheel-title { font-size: 14px; top: -40px; padding: 4px 10px; border-left: 2px solid red; border-right: 2px solid red; }
+            .wheel-inner { width: 90%; height: 90%; }
+            .sector span { font-size: 12px; width: 80px; }
+            .sector { padding-right: 15px; }
+            .social-links a { width: 40px; height: 40px; }
+            .social-links { gap: 10px; top: 10px; left: 10px; }
+            .ca-vertical { font-size: 12px; padding: 10px 4px; }
+        }
+
+        @keyframes trumpGlitchSwap {
+            0% { opacity: 1; filter: brightness(1) drop-shadow(0 -10px 40px rgba(0,0,0,0.9)); }
+            15% { opacity: 0.8; filter: brightness(2) contrast(1.5) drop-shadow(0 0 15px rgba(255,0,0,0.7)); transform: scale(1.02); }
+            30% { opacity: 0; filter: brightness(0) blur(5px); transform: scale(0.98); }
+            70% { opacity: 0; filter: brightness(0) blur(5px); transform: scale(0.98); }
+            85% { opacity: 0.8; filter: brightness(2) contrast(1.5) drop-shadow(0 0 15px rgba(0,255,0,0.7)); transform: scale(1.02); }
+            100% { opacity: 1; filter: brightness(1) drop-shadow(0 -10px 40px rgba(0,0,0,0.9)); }
+        }
+        .trump-img-changing { animation: trumpGlitchSwap 0.5s ease-in-out forwards; }
+
+
+        /* =========================================
+           ЭФФЕКТЫ ДЛЯ ЭКРАНА (СЕКТОРОВ)
+           ========================================= */
+
+        /* 0. Эффект "Nothing new" */
+        @keyframes stablePulse {
+            0% { box-shadow: inset 0 0 100px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: inset 0 0 180px rgba(59, 130, 246, 0.6); }
+            100% { box-shadow: inset 0 0 100px rgba(59, 130, 246, 0.3); }
+        }
+        .effect-nothing-new .vignette { animation: stablePulse 4s ease-in-out infinite; }
+        .effect-nothing-new::after {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px; z-index: 1; pointer-events: none; opacity: 0; animation: fadeInGrid 1.5s ease-out forwards;
+        }
+        @keyframes fadeInGrid { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 1. Эффект "Near End" */
+        @keyframes jumpShake {
+            0% { transform: translateY(0); }
+            20% { transform: translateY(-20px); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(-10px); }
+            80% { transform: translateY(5px); }
+            100% { transform: translateY(0); }
+        }
+        .effect-near-end { animation: jumpShake 0.5s ease-out; filter: grayscale(100%); }
+
+        /* 2. Эффект "THE WAR IS OVER" */
+        .effect-war-over .vignette { box-shadow: inset 0 0 200px rgba(255, 215, 0, 0.7), inset 0 0 50px rgba(255, 255, 255, 0.5); }
+
+        /* 3. Эффект "2-3 WEEKS" */
+        @keyframes panicShake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .effect-panic { animation: panicShake 0.3s infinite; }
+        .effect-panic .vignette { box-shadow: inset 0 0 250px rgba(255, 0, 0, 0.8); }
+
+        /* 4. Эффект "BEAUTIFUL DEAL" */
+        @keyframes matrixPulse {
+            0% { box-shadow: inset 0 0 100px rgba(34, 197, 94, 0.3); }
+            50% { box-shadow: inset 0 0 200px rgba(34, 197, 94, 0.7); }
+            100% { box-shadow: inset 0 0 100px rgba(34, 197, 94, 0.3); }
+        }
+        .effect-beautiful-deal .vignette { animation: matrixPulse 2s infinite; }
+
+        /* 5. Эффект "FIRE & FURY" */
+        @keyframes nuclearShake {
+            0% { filter: brightness(5) contrast(2); transform: translate(0, 0); }
+            10% { filter: brightness(1); transform: translate(-15px, 15px) rotate(-2deg); }
+            20% { transform: translate(15px, -15px) rotate(2deg); }
+            30% { transform: translate(-15px, -15px) rotate(-2deg); }
+            40% { transform: translate(15px, 15px) rotate(2deg); }
+            50% { transform: translate(-10px, 10px) rotate(-1deg); }
+            60% { transform: translate(10px, -10px) rotate(1deg); }
+            70% { transform: translate(-5px, -5px) rotate(0deg); }
+            80% { transform: translate(5px, 5px); }
+            100% { transform: translate(0, 0); }
+        }
+        .effect-fire-fury { animation: nuclearShake 0.6s ease-out; }
+        .effect-fire-fury .vignette { box-shadow: inset 0 0 300px rgba(255, 69, 0, 0.9); }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-container">
+        <div class="background-map"></div>
+        <div class="vignette"></div>
+    </div>
+
+    <div class="social-links">
+        <a href="#" target="_blank"><img src="materials/dexscreener.png" alt="Dex"></a>
+        <a href="#" target="_blank"><img src="materials/X.png" alt="X"></a>
+        <a href="#" target="_blank"><img src="materials/buy.png" alt="Buy"></a>
+        <div class="ca-vertical" onclick="navigator.clipboard.writeText('31233123213212311221')">CA: 31233123213212311221</div>
+    </div>
+
+    <div class="trump-wrapper">
+        <img id="trump-img" src="materials/trump_main.png" alt="Trump Main">
+    </div>
+
+    <div class="wheel-container">
+        <div class="wheel-title">When the war ends?</div>
+        
+        <div class="pointer"></div>
+        <div class="wheel-frame"></div>
+        <div class="wheel-inner" id="wheel">
+            <div class="sector"><span>Nothing new...</span></div>
+            <div class="sector"><span>Near End</span></div>
+            <div class="sector"><span>THE WAR IS OVER</span></div>
+            <div class="sector"><span>2-3 WEEKS</span></div>
+            <div class="sector"><span>BEAUTIFUL DEAL</span></div>
+            <div class="sector"><span>FIRE & FURY</span></div>
+        </div>
+    </div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const trumpImg = document.getElementById('trump-img');
+        const bodyTag = document.body; 
+        
+        let spinsCount = 0; 
+
+        const WHEEL_STOP_TIME = 1800; 
+        const IMG_ANIM_DURATION = 500; 
+        const IMG_SWAP_OFFSET = IMG_ANIM_DURATION * 0.3; 
+
+        // Изображения для 6 секторов
+        const trumpImages = [
+            'materials/trump_main.png',     // 0
+            'materials/trump_intrigue.png', // 1
+            'materials/trump_holy.png',     // 2
+            'materials/trump_panic.png',    // 3
+            'materials/trump_smug.png',     // 4
+            'materials/trump_laser.png'     // 5
+        ];
+
+        // Классы эффектов для 6 секторов
+        const effectClasses = [
+            'effect-nothing-new',    // 0
+            'effect-near-end',       // 1
+            'effect-war-over',       // 2
+            'effect-panic',          // 3
+            'effect-beautiful-deal', // 4
+            'effect-fire-fury'       // 5
+        ];
+
+        function spinWheel() {
+            bodyTag.className = '';
+
+            const sectorIndex = Math.floor(Math.random() * 6); 
+            spinsCount++;
+            
+            // Математика для 6 секторов
+            const baseAngle = spinsCount * 1080; 
+            const sectorAngle = 60 - (sectorIndex * 60); 
+            const finalAngle = baseAngle + sectorAngle;
+            
+            wheel.style.transform = `rotate(${finalAngle}deg)`;
+
+            setTimeout(() => {
+                trumpImg.classList.add('trump-img-changing');
+            }, WHEEL_STOP_TIME - IMG_SWAP_OFFSET);
+
+            setTimeout(() => {
+                trumpImg.src = trumpImages[sectorIndex];
+                
+                if (effectClasses[sectorIndex]) {
+                    bodyTag.classList.add(effectClasses[sectorIndex]);
+                }
+                
+                if (sectorIndex === 1) { 
+                    setTimeout(() => {
+                        bodyTag.classList.remove('effect-near-end');
+                    }, 1000); 
+                }
+            }, WHEEL_STOP_TIME); 
+
+            setTimeout(() => {
+                trumpImg.classList.remove('trump-img-changing');
+            }, WHEEL_STOP_TIME - IMG_SWAP_OFFSET + IMG_ANIM_DURATION + 50);
+        }
+
+        setInterval(spinWheel, 4000);
+        window.onload = spinWheel;
+    </script>
+</body>
+</html>
