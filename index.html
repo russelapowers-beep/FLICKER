@@ -62,7 +62,7 @@
 
         .wheel-frame { position: absolute; width: 100%; height: 100%; z-index: 3; pointer-events: none; background-image: url('materials/wheel.png'); background-size: contain; background-repeat: no-repeat; background-position: center; }
         
-        /* 6-СЕКТОРНОЕ КОЛЕСО ЧЕРЕЗ ГРАДИЕНТ */
+
         .wheel-inner { 
             width: 90%; 
             height: 90%; 
@@ -71,14 +71,14 @@
             position: relative; 
             transition: transform 1.8s cubic-bezier(0.2, 0, 0.2, 1); 
             border: 4px solid #1a1a1a;
-            /* Рисуем 6 фонов по 60 градусов */
+ 
             background: conic-gradient(
-                #0f172a 0deg 60deg,    /* 0: Nothing new */
-                #1f1f1f 60deg 120deg,  /* 1: Near End */
-                #2d240a 120deg 180deg, /* 2: War is Over */
-                #2d0a0a 180deg 240deg, /* 3: 2-3 Weeks */
-                #0f291e 240deg 300deg, /* 4: Beautiful Deal */
-                #3b0a0a 300deg 360deg  /* 5: Fire & Fury */
+                #0f172a 0deg 60deg,    
+                #1f1f1f 60deg 120deg, 
+                #2d240a 120deg 180deg, 
+                #2d0a0a 180deg 240deg, 
+                #0f291e 240deg 300deg, 
+                #3b0a0a 300deg 360deg  
             );
         }
 
@@ -96,11 +96,11 @@
             transform-origin: 0 50%; 
             display: flex; 
             align-items: center; 
-            justify-content: flex-end; /* Текст жмется к краю барабана */
-            padding-right: 35px; /* Отступ текста от края */
+            justify-content: flex-end; 
+            padding-right: 35px; 
         }
         
-        /* Расставляем 6 секторов по центру их цветовых полей */
+ 
         .sector:nth-child(1) { transform: rotate(-60deg); }
         .sector:nth-child(2) { transform: rotate(0deg); }
         .sector:nth-child(3) { transform: rotate(60deg); }
@@ -118,7 +118,7 @@
             line-height: 1.1;
         }
 
-        /* Цвета и свечение текста 6 секторов */
+     
         .sector:nth-child(1) span { color: #94a3b8; text-shadow: 0 0 12px #3b82f6; } 
         .sector:nth-child(2) span { color: #6b7280; text-shadow: 0 0 5px #9ca3af; letter-spacing: 1px; } 
         .sector:nth-child(3) span { color: #fbbf24; text-shadow: 0 0 20px #d97706, 0 0 40px rgba(251, 191, 36, 0.4); } 
@@ -176,11 +176,9 @@
         .trump-img-changing { animation: trumpGlitchSwap 0.5s ease-in-out forwards; }
 
 
-        /* =========================================
-           ЭФФЕКТЫ ДЛЯ ЭКРАНА (СЕКТОРОВ)
-           ========================================= */
 
-        /* 0. Эффект "Nothing new" */
+
+
         @keyframes stablePulse {
             0% { box-shadow: inset 0 0 100px rgba(59, 130, 246, 0.3); }
             50% { box-shadow: inset 0 0 180px rgba(59, 130, 246, 0.6); }
@@ -194,7 +192,7 @@
         }
         @keyframes fadeInGrid { from { opacity: 0; } to { opacity: 1; } }
 
-        /* 1. Эффект "Near End" */
+
         @keyframes jumpShake {
             0% { transform: translateY(0); }
             20% { transform: translateY(-20px); }
@@ -205,10 +203,10 @@
         }
         .effect-near-end { animation: jumpShake 0.5s ease-out; filter: grayscale(100%); }
 
-        /* 2. Эффект "THE WAR IS OVER" */
+
         .effect-war-over .vignette { box-shadow: inset 0 0 200px rgba(255, 215, 0, 0.7), inset 0 0 50px rgba(255, 255, 255, 0.5); }
 
-        /* 3. Эффект "2-3 WEEKS" */
+
         @keyframes panicShake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
             10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -225,7 +223,7 @@
         .effect-panic { animation: panicShake 0.3s infinite; }
         .effect-panic .vignette { box-shadow: inset 0 0 250px rgba(255, 0, 0, 0.8); }
 
-        /* 4. Эффект "BEAUTIFUL DEAL" */
+
         @keyframes matrixPulse {
             0% { box-shadow: inset 0 0 100px rgba(34, 197, 94, 0.3); }
             50% { box-shadow: inset 0 0 200px rgba(34, 197, 94, 0.7); }
@@ -233,7 +231,7 @@
         }
         .effect-beautiful-deal .vignette { animation: matrixPulse 2s infinite; }
 
-        /* 5. Эффект "FIRE & FURY" */
+  
         @keyframes nuclearShake {
             0% { filter: brightness(5) contrast(2); transform: translate(0, 0); }
             10% { filter: brightness(1); transform: translate(-15px, 15px) rotate(-2deg); }
@@ -301,13 +299,13 @@
         const caText = '4c96iiQGvZNjgREH5jSipK5rBHfnZFbbXWBT9iHqpump';
         const btn = document.getElementById('ca-button');
         
-        // Копируем текст
+
         navigator.clipboard.writeText(caText);
         
-        // Добавляем класс подсветки
+
         btn.classList.add('copied');
         
-        // Убираем подсветку через 1 секунду
+   
         setTimeout(() => {
             btn.classList.remove('copied');
         }, 1000);
@@ -345,7 +343,7 @@
         const IMG_ANIM_DURATION = 500; 
         const IMG_SWAP_OFFSET = IMG_ANIM_DURATION * 0.3; 
 
-        // Изображения для 6 секторов
+
         const trumpImages = [
             'materials/trump_main.png',     // 0
             'materials/trump_intrigue.png', // 1
@@ -355,7 +353,7 @@
             'materials/trump_laser.png'     // 5
         ];
 
-        // Классы эффектов для 6 секторов
+
         const effectClasses = [
             'effect-nothing-new',    // 0
             'effect-near-end',       // 1
@@ -371,7 +369,7 @@
             const sectorIndex = Math.floor(Math.random() * 6); 
             spinsCount++;
             
-            // Математика для 6 секторов
+   
             const baseAngle = spinsCount * 1080; 
             const sectorAngle = 60 - (sectorIndex * 60); 
             const finalAngle = baseAngle + sectorAngle;
